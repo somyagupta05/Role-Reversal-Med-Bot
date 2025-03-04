@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Chatbot</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden; /* Prevent page scroll */
+        padding-top: 5%; /* Adjust this based on your navbar height */
+      }
+      /* Navbar Styling */
+      .navbar {
+        background-color: rgb(57, 206, 220);
+        font-size: 1.5rem;
+        padding: 10px 70px;
+      }
+
+      .navbar-brand span {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #fff;
+      }
+
+      .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.295); /* Light bubble effect */
+        border-radius: 4px;
+      }
+      .navbar-dark .navbar-nav .nav-link {
+        color: rgb(255, 255, 255);
+      }
+
+      h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      /* Flex container for left and right sections */
+      .main-container {
+        display: flex;
+        width: 76%;
+        max-width: 190%;
+
+        flex-grow: 1;
+        margin-top: 0px; /* Space below navbar */
+      }
+
+      .history-section {
+        width: 20%; /* Left section for conversation history */
+        background-color: #e7d3ed67;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        margin-right: 20px;
+        max-height: 100vh; /* Adjust height according to available space */
+        overflow-y: auto;
+      }
+
+      .chat-box {
+        width: 60%; /* Right section for chat */
+        background-color: hsla(
+          30,
+          23%,
+          95%,
+          0.963
+        ); /* Updated background color */
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        flex-grow: 1;
+        max-height: calc(100vh - 150px);
+      }
+
+      .chat-message {
+        margin: 10px 0;
+        display: flex;
+        align-items: flex-start;
+      }
+
+      .user-message {
+        justify-content: flex-end;
+      }
+
+      .bot-message {
+        justify-content: flex-start;
+      }
+
+      .bubble {
+        border-radius: 15px;
+        padding-top: 5px;
+        padding-right: 45px;
+        padding-left: 15px;
+        max-width: 72%;
+        display: inline-block;
+        line-height: 1.5;
+        position: relative;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+      }
+
+      .user-message .bubble {
+        background-color: #e6d8ff;
+        color: #333;
+        border-top-right-radius: 0;
+        padding-bottom: 20px;
+      }
+
+      .bot-message .bubble {
+        background-color: #ace5ff;
+        color: #333;
+        border-top-left-radius: 0;
+        padding-bottom: 20px;
+      }
+
+      .chat-message span {
+        font-size: 0.5rem;
+        color: #888;
+        margin-left: 8px;
+      }
+
+      .timestamp {
+        color: #888;
+        position: absolute;
+        bottom: 5px;
+        right: 10px;
+        padding-top: 5px; /* Padding to prevent overlap */
+      }
+
+      .bot-message .speaker-icon {
+        margin-left: 10px;
+        cursor: pointer;
+      }
+
+      .input-container {
+        width: 100%;
+        display: flex;
+        margin-top: 2px;
+        margin-left: -400px;
+      }
+
+      input[type="text"] {
+        flex: 0.8;
+        margin-left: 40%;
+        padding: 10px;
+        border-radius: 5px 0 0 5px;
+        border: 1px solid #01051b;
+        outline: none;
+        font-size: 15px;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #053365;
+        color: white;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      /* Style for handling bold sections */
+      b {
+        font-weight: bold;
+      }
+      #history-content ul {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+      }
+
+      #history-content li {
+        margin-bottom: 10px;
+      }
+
+      #history-content a {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #204566;
+        color: #fce6eb;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+      }
+
+      #history-content a:hover {
+        color: #1e3d58;
+        background-color: #73a6c6d7;
+      }
+      .history-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .history-header h2 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      .new-chat-icon {
+        width: 35px; /* Adjust size as needed */
+        height: auto;
+        cursor: pointer;
+      }
+      nav img {
+        border-radius: 50%;
+        height: 60px;
+        width: 60px;
+      }
+      .input-container button {
+        background: rgb(57, 206, 220);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img src="logo.jpg" alt="MediTrain AI Logo" width="40" class="me-2" />
+          <span>Roll-Reversal Medical Bot</span>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/chat">Chat</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="/patient">AI Patient</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-container">
+      <div class="chat-box" id="chat-box">
+        <!-- Chat history will be inserted here -->
+      </div>
+    </div>
+    <footer class="input-container">
+      <input type="text" id="user-input" placeholder="Ask a question..." />
+      <button onclick="sendMessage()">Send</button>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function appendMessage(message, sender, bgColor) {
+        const chatBox = document.getElementById("chat-box");
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("chat-message", sender);
+
+        const bubble = document.createElement("div");
+        bubble.classList.add("bubble");
+        bubble.style.backgroundColor = bgColor;
+        bubble.innerHTML = message; // Use innerHTML to preserve formatting
+
+        messageDiv.appendChild(bubble);
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight; // Ensures the scroll stays at the bottom
+      }
+
+      function sendMessage() {
+        const userInput = document.getElementById("user-input").value;
+        if (userInput.trim() === "") return;
+
+        appendMessage(userInput, "user-message", "#d9f7be");
+        document.getElementById("user-input").value = "";
+
+        // Display "Analyzing..." in the chat box
+        const analyzingMessageId = "analyzing-message";
+        const chatBox = document.getElementById("chat-box");
+        const analyzingMessageDiv = document.createElement("div");
+        analyzingMessageDiv.classList.add("chat-message", "bot-message");
+        analyzingMessageDiv.id = analyzingMessageId;
+
+        const analyzingBubble = document.createElement("div");
+        analyzingBubble.classList.add("bubble");
+        analyzingBubble.style.backgroundColor = "#e6f7ff";
+        analyzingBubble.textContent = "Analyzing...";
+
+        analyzingMessageDiv.appendChild(analyzingBubble);
+        chatBox.appendChild(analyzingMessageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        fetch("/query", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `query=${encodeURIComponent(userInput)}`,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data); // Debug response
+
+            // Remove the "Analyzing..." message
+            const analyzingMessage =
+              document.getElementById(analyzingMessageId);
+            if (analyzingMessage) analyzingMessage.remove();
+
+            if (data.messages) {
+              data.messages.forEach((msg) => {
+                appendMessage(msg.text, "bot-message", msg.bg_color);
+              });
+            } else {
+              appendMessage(
+                "Something went wrong. Please try again.",
+                "bot-message",
+                "#e6f7ff"
+              );
+            }
+          })
+          .catch((error) => {
+            console.error("Fetch error:", error);
+
+            // Remove the "Analyzing..." message
+            const analyzingMessage =
+              document.getElementById(analyzingMessageId);
+            if (analyzingMessage) analyzingMessage.remove();
+
+            appendMessage(
+              "Failed to connect to the server. Please try again later.",
+              "bot-message",
+              "#e6f7ff"
+            );
+          });
+      }
+    </script>
+  </body>
+</html>

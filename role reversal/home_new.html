@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Bot</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        text-align: center;
+      }
+      header {
+        background: rgb(57, 206, 220);
+        color: white;
+        padding: 10px 0;
+      }
+      nav {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 80px;
+        align-items: center;
+        font-size: 1.4rem;
+      }
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+      }
+      nav ul {
+        list-style: none;
+        padding: 0;
+        display: flex;
+      }
+      nav ul li {
+        margin: 0 30px;
+      }
+      nav ul li a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+      }
+      nav ul li a:hover {
+        background-color: rgba(255, 255, 255, 0.295); /* Light bubble effect */
+        border-radius: 4px;
+      }
+      #home {
+        padding: 50px;
+        background: url("HOME.webp") no-repeat center center/cover;
+        opacity: 80%;
+        position: relative;
+        height: 500px;
+      }
+      #home h1 {
+        font-size: 3rem;
+        color: black;
+      }
+      #home p {
+        font-size: 2rem;
+        color: white;
+      }
+      #about {
+        background: rgb(57, 206, 220);
+        color: white;
+        padding: 50px;
+        text-align: center;
+      }
+      #about h2 {
+        font-size: 3rem;
+        color: white;
+        margin-top: 55px;
+      }
+      #about h1 {
+        font-size: 3rem;
+        color: white;
+      }
+      #about p {
+        font-size: 1.2rem;
+        color: white;
+        max-width: 1100px;
+        margin: auto;
+        margin-top: 55px;
+      }
+      #about ul {
+        list-style: none;
+        padding: 0;
+        margin: 20px auto;
+        max-width: 600px;
+      }
+      #about ul li {
+        background: white;
+        color: rgb(127, 127, 177);
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+      .chatbot {
+        padding: 20px;
+        background: white;
+        margin: 20px auto;
+        width: 80%;
+        max-width: 500px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .chat-window {
+        height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+        background: #f9f9f9;
+      }
+      input {
+        width: 70%;
+        padding: 10px;
+        margin-right: 5px;
+      }
+      button {
+        padding: 10px 20px;
+        background: rgba(57, 206, 220, 0.656);
+        color: rgb(77, 77, 77);
+        font-size: 1.6rem;
+        border: none;
+        cursor: pointer;
+        height: 80px;
+        width: 350px;
+        font-weight: bold;
+      }
+      footer {
+        background: white;
+        color: rgba(57, 206, 220, 0.656);
+        padding: 10px;
+        margin-top: 20px;
+      }
+      .logo img {
+        height: 60px; /* Adjust size as needed */
+        width: auto;
+        border-radius: 50%;
+      }
+      footer {
+        background: white;
+        color: rgba(57, 206, 220, 0.94);
+        padding: 10px;
+        text-align: center;
+        font-size: 1.8rem;
+      }
+
+      footer a {
+        text-decoration: none;
+        color: rgba(57, 206, 220, 0.94);
+        margin: 0 5px;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      @media screen and (max-width: 768px) {
+        nav {
+          padding: 0 20px;
+        }
+
+        nav ul {
+          display: none;
+          flex-direction: column;
+          background: rgb(57, 206, 220);
+          width: 100%;
+          position: absolute;
+          top: 60px;
+          left: 0;
+          text-align: center;
+          padding: 10px 0;
+        }
+
+        nav ul li {
+          margin: 10px 0;
+        }
+
+        .menu-icon {
+          display: block;
+        }
+
+        #home h1 {
+          font-size: 2rem;
+        }
+
+        #home p {
+          font-size: 1.2rem;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        nav {
+          padding: 0 10px;
+        }
+
+        .logo img {
+          height: 40px;
+        }
+
+        #home h1 {
+          font-size: 1.8rem;
+        }
+
+        #home p {
+          font-size: 1rem;
+        }
+
+        button {
+          font-size: 1rem;
+          padding: 10px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">
+          <img src="logo.jpg" alt="MedBot Logo" />
+        </div>
+
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="/chat">AI Doctor</a></li>
+          <li><a href="/patient">AI Patient</a></li>
+          <li><a href="#footer">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="home" class="hero">
+      <h1>WELCOME TO ROLE-REVERSAL MEDICAL BOT</h1>
+      <p>Your AI-powered medical assistant.</p>
+      <button>Start Consultation</button>
+    </section>
+
+    <section id="about" class="hero">
+      <h1>About MedBot</h1>
+      <p>
+        MedBot is an AI-powered virtual healthcare assistant designed to
+        revolutionize medical consultations and patient care. Our intelligent
+        chatbot provides
+        <strong>instant, reliable, and confidential</strong> medical guidance to
+        patients while also serving as a
+        <strong>training companion for medical students</strong>.
+      </p>
+      <h2>Why Choose MedBot?</h2>
+      <ul>
+        <li>
+          <strong>24/7 Availability</strong> – Get medical assistance anytime,
+          anywhere.
+        </li>
+        <li>
+          <strong>AI-Powered Diagnosis</strong> – Our system analyzes symptoms
+          and suggests possible conditions.
+        </li>
+        <li>
+          <strong>Medical Student Support</strong> – Simulated patient
+          interactions to improve diagnostic skills.
+        </li>
+        <li>
+          <strong>Secure & Private</strong> – Your health data remains
+          confidential.
+        </li>
+        <li>
+          <strong>User-Friendly</strong> – Easy-to-use chatbot interface for
+          seamless interaction.
+        </li>
+      </ul>
+    </section>
+
+    <footer id="footer">
+      <p>
+        © 2025 MedBot | <a href="#home">Home</a> | <a href="#about">About</a> |
+        <a href="#contact">Contact</a>
+      </p>
+    </footer>
+  </body>
+</html>
